@@ -1,0 +1,6 @@
+    PUSH 39
+    PUSH 69
+    PUSH 75
+    COPY 2
+    PRINTI
+    END

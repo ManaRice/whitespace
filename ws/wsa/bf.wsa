@@ -1,0 +1,224 @@
+    push 37
+    printc
+    push 32
+    printc
+    push 100
+.4a00:
+    dupe
+    readc
+    dupe
+    fetch
+    dupe
+    push 10
+    sub
+    jz .4a01
+    dupe
+    push 62
+    sub
+    jz .4a02
+    dupe
+    push 60
+    sub
+    jz .4a02
+    dupe
+    push 43
+    sub
+    jz .4a02
+    dupe
+    push 45
+    sub
+    jz .4a02
+    dupe
+    push 46
+    sub
+    jz .4a02
+    dupe
+    push 44
+    sub
+    jz .4a02
+    dupe
+    push 91
+    sub
+    jz .4a02
+    dupe
+    push 93
+    sub
+    jz .4a02
+    drop
+    jmp .4a00
+.4a02:
+    drop
+    push 1
+    add
+    jmp .4a00
+.4a01:
+    drop
+    dupe
+    push 0
+    store
+    push 1
+    add
+    push 100
+.4a03:
+    dupe
+    fetch
+    dupe
+    jz .4a04
+    dupe
+    push 43
+    sub
+    jz .4a05
+    dupe
+    push 45
+    sub
+    jz .4a06
+    dupe
+    push 62
+    sub
+    jz .4a07
+    dupe
+    push 60
+    sub
+    jz .4a08
+    dupe
+    push 46
+    sub
+    jz .4a09
+    dupe
+    push 44
+    sub
+    jz .4a0a
+    dupe
+    push 91
+    sub
+    jz .4a0b
+    dupe
+    push 93
+    sub
+    jz .4a0c
+    jmp .4a0d
+.4a0b:
+    drop
+    copy 1
+    fetch
+    jz .4a0e
+    jmp .4a0d
+.4a0a:
+    drop
+    copy 1
+    readc
+    jmp .4a0d
+.4a09:
+    drop
+    copy 1
+    fetch
+    printc
+    jmp .4a0d
+.4a08:
+    drop
+    swap
+    push 1
+    sub
+    swap
+    jmp .4a0d
+.4a07:
+    drop
+    swap
+    push 1
+    add
+    swap
+    jmp .4a0d
+.4a06:
+    drop
+    copy 1
+    dupe
+    fetch
+    push 1
+    sub
+    store
+    jmp .4a0d
+.4a05:
+    drop
+    copy 1
+    dupe
+    fetch
+    push 1
+    add
+    store
+    jmp .4a0d
+.4a0e:
+    push 1
+.4a0f:
+    dupe
+    jz .4aa0
+    swap
+    push 1
+    add
+    swap
+    copy 1
+    fetch
+    dupe
+    jz .4a04
+    dupe
+    push 91
+    sub
+    jz .4aa1
+    push 93
+    sub
+    jz .4aa2
+    jmp .4a0f
+.4aa2:
+    push 1
+    sub
+    jmp .4a0f
+.4aa1:
+    drop
+    push 1
+    add
+    jmp .4a0f
+.4aa0:
+    drop
+    jmp .4a0d
+.4a0c:
+    drop
+    copy 1
+    fetch
+    jz .4a0d
+    push -1
+.4aa3:
+    dupe
+    jz .4aa4
+    swap
+    push 1
+    sub
+    swap
+    copy 1
+    fetch
+    dupe
+    jz .4a04
+    dupe
+    push 91
+    sub
+    jz .4aa5
+    push 93
+    sub
+    jz .4aa6
+    jmp .4aa3
+.4aa6:
+    push 1
+    sub
+    jmp .4aa3
+.4aa5:
+    drop
+    push 1
+    add
+    jmp .4aa3
+.4aa4:
+    drop
+    jmp .4a0d
+.4a0d:
+    push 1
+    add
+    jmp .4a03
+.4a04:
+    end
