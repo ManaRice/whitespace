@@ -4,6 +4,9 @@
 #include "inc/limelib.h"
 #include "inc/getline.h"
 #include "inc/common.h"
+#ifdef __linux__
+    #include "inc/linux.h"
+#endif
 
 #define HEAP_SIZE 4096                  // 4k ints heap
 #define STACK_SIZE 8181                 // 8k ints stack
