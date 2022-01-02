@@ -534,26 +534,77 @@ void write_op(FILE* file, struct op* op)
 
 }
 
-struct token token_get_hex()
+struct token token_get_hex(struct lexer* lxr)
 {
-    fprintf(stderr, "HEX NOT IMPLEMENTED");
-    exit(1);
+    struct token token = {.type = NUMBER, .loc = lxr->loc};
+    char c = lexer_get_current(lxr);
+    size_t index = 0;
+
+    char buffer[MAX_TOKEN_LEN + 1];
+
+    buffer[index++] = c;
+
+    while (strchr(NUMCHAR, lexer_peek_next(lxr)) &&
+                           lexer_peek_next(lxr) != '\0')
+    {
+        if (index >= MAX_TOKEN_LEN)
+        {
+            fprintf(stderr,
+                    "[LXR]Number too large at %d:%d\n",
+                    lxr->loc.col,
+                    lxr->loc.row);
+
+            exit(1);
+        }
+        c = lexer_get_next(lxr);
+        buffer[index] = c;
+        index++;
+    }
+
+    if (strchr(SPECIAL , lexer_peek_next(lxr)) &&
+        strchr(WSCHAR, lexer_peek_next(lxr)) &&
+        lexer_peek_next(lxr) != '\0')
+    {
+        fprintf(stderr, "Syntax error at %d:%d\n", lxr->loc.col,
+                                                   lxr->loc.row);
+                                                   exit(1);
+    }
+
+    lexer_get_next(lxr);
+    buffer[index] = '\0';
+
+    token.n = strtoll(buffer, NULL, 16);
+    return token;
 }
 
 struct token token_get_number(struct lexer* lxr)
 {
     struct token token = {.type = NUMBER, .loc = lxr->loc};
     char c = lexer_get_current(lxr);
+    size_t index = 0;
 
-    size_t index = 1;
     if (c == '0')
     {
         if (lexer_peek_next(lxr) == 'x')
+        {
+            lexer_get_next(lxr);
+            lexer_get_next(lxr);
             return token_get_hex(lxr);
+        }
+        else
+        {
+            fprintf(stderr,
+                    "[LXR]Unsupported number base (0%c) at %d:%d\n",
+                    lexer_get_next(lxr),
+                    lxr->loc.col,
+                    lxr->loc.row);
+
+            exit(1);
+        }
     }
     char buffer[MAX_TOKEN_LEN + 1];
 
-    buffer[0] = c;
+    buffer[index++] = c;
 
     while (strchr(NUMCHAR, lexer_peek_next(lxr)) &&
                            lexer_peek_next(lxr) != '\0')
@@ -1008,7 +1059,7 @@ size_t parse(struct token* token_list,
 
 int main(int argc, char** argv)
 {
-    FILE* in_file = fopen("ws/wsa/hanoi.wsa", "r");
+    FILE* in_file = fopen("ws/wsa/copytest.wsa", "r");
 
     if (!in_file)
     {
@@ -1016,7 +1067,7 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    FILE* out_file= fopen("ws/ws/hanoi.ws", "w");
+    FILE* out_file= fopen("ws/ws/copytest.ws", "w");
 
     fseek(in_file, 0, SEEK_END);
     size_t file_size = ftell(in_file);
@@ -1045,6 +1096,7 @@ int main(int argc, char** argv)
     size_t pp_token_list_size = pre_process(token_list,
                                              token_list_size,
                                              pre_processed_tokens);
+
 
 
     struct op op_list[pp_token_list_size];

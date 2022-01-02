@@ -8,7 +8,7 @@
     #include "inc/linux.h"
 #endif
 
-#define HEAP_SIZE 4096                  // 4k ints heap
+#define HEAP_SIZE 60000                 // 4k ints heap
 #define STACK_SIZE 8181                 // 8k ints stack
 #define MAX_PROGRAM_SIZE 1024
 
@@ -360,7 +360,7 @@ void run_vm(struct vm* vm)
                 a = i64_stack_pop(vm->stack);
                 if (b <= 0)
                 {
-                    printf("[WSVM]: CANNOT DIV BY 0\n");
+                    printf("\n[WSVM]: CANNOT DIV BY 0\n");
                     vm->running = false;
                     break;
                 }
@@ -371,7 +371,7 @@ void run_vm(struct vm* vm)
                 a = i64_stack_pop(vm->stack);
                 if (b <= 0)
                 {
-                    printf("[WSVM]: CANNOT MOD BY 0\n");
+                    printf("\n[WSVM]: CANNOT MOD BY 0\n");
                     vm->running = false;
                     break;
                 }
@@ -382,7 +382,7 @@ void run_vm(struct vm* vm)
                 index = i64_stack_pop(vm->stack);
                 if (index >= HEAP_SIZE || index < 0)
                 {
-                    printf("[WSVM]: INDEX %d OUTSIDE OF HEAP\n", index);
+                    printf("\n[WSVM]: INDEX %d OUTSIDE OF HEAP\n", index);
                     vm->running = false;
                     break;
                 }
@@ -392,7 +392,7 @@ void run_vm(struct vm* vm)
                 index = i64_stack_pop(vm->stack);
                 if (index >= HEAP_SIZE || index < 0)
                 {
-                    printf("[WSVM]: INDEX %d OUTSIDE OF HEAP\n", index);
+                    printf("\n[WSVM]: INDEX %d OUTSIDE OF HEAP\n", index);
                     vm->running = false;
                     break;
                 }
@@ -406,13 +406,13 @@ void run_vm(struct vm* vm)
                 opt = int_hashmap_get(vm->jump_map, buffer);
                 if (!opt.has_value)
                 {
-                    printf("[WSVM]: CALLING WRONG LABEL\n");
+                    printf("\n[WSVM]: CALLING WRONG LABEL\n");
                     vm->running = false;
                     break;
                 }
                 if (i64_stack_push(vm->call_stack, vm->ip))
                 {
-                    printf("[WSVM]: CALL-STACK OVERFLOW\n");
+                    printf("\n[WSVM]: CALL-STACK OVERFLOW\n");
                     vm->running = false;
                 }
                 vm->ip = opt.value;
@@ -422,7 +422,7 @@ void run_vm(struct vm* vm)
                 opt = int_hashmap_get(vm->jump_map, buffer);
                 if (!opt.has_value)
                 {
-                    printf("[WSVM]: JUMPING WRONG LABEL\n");
+                    printf("\n[WSVM]: JUMPING WRONG LABEL\n");
                     vm->running = false;
                     break;
                 }
@@ -433,7 +433,7 @@ void run_vm(struct vm* vm)
                 opt = int_hashmap_get(vm->jump_map, buffer);
                 if (!opt.has_value)
                 {
-                    printf("[WSVM]: JUMPING WRONG LABEL\n");
+                    printf("\n[WSVM]: JUMPING WRONG LABEL\n");
                     vm->running = false;
                     break;
                 }
@@ -448,7 +448,7 @@ void run_vm(struct vm* vm)
                 opt = int_hashmap_get(vm->jump_map, buffer);
                 if (!opt.has_value)
                 {
-                    printf("[WSVM]: JUMPING WRONG LABEL\n");
+                    printf("\n[WSVM]: JUMPING WRONG LABEL\n");
                     vm->running = false;
                     break;
                 }
@@ -485,8 +485,9 @@ void run_vm(struct vm* vm)
                 }
                 if (getline(&vm->input, &input_size, stdin) == -1)
                 {
-                    printf("[WSVM]: NO LINE\n");
+                    printf("\n[WSVM]: ABORTED\n");
                     vm->running = false;
+                    break;
                 }
                 vm->heap[index] = *vm->input;
                 vm->input++;
@@ -495,14 +496,15 @@ void run_vm(struct vm* vm)
                 index = i64_stack_pop(vm->stack);
                 if (getline(&vm->input, &input_size, stdin) == -1)
                 {
-                    printf("[WSVM]: NO LINE\n");
+                    printf("\n[WSVM]: ABORTED\n");
                     vm->running = false;
+                    break;
                 }
                 value = atoi(vm->input);
                 vm->heap[index] = value;
                 break;
             default:
-                printf("[WSVM]: UNKNOWN OP %d\n", exec_token.op);
+                printf("\n[WSVM]: UNKNOWN OP %d\n", exec_token.op);
                 break;
         }
         vm->ip++;

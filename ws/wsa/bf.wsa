@@ -9,7 +9,7 @@
     dupe
     fetch
     dupe
-    push 10
+    push 4
     sub
     jz .4a01
     dupe
