@@ -2,7 +2,7 @@
         Test the hex parsing as well
     */
     
-    PUSH 0x27 // 39
+    PUSH 0x2A // 42
     PUSH 0x45 // 69
     PUSH 0x48 // 72
     COPY 0x02 // 2

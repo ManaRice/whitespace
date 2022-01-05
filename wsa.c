@@ -13,6 +13,7 @@
 #define WSCHAR " \t\n"
 
 #define NUMCHAR "0123456789"
+#define HEXNUMCHAR "0123456789aAbBcCdDeEfF"
 #define SPECIAL ".:;[]*/\\'\"#$-"
 
 #pragma GCC diagnostic ignored "-Wformat-extra-args"
@@ -544,7 +545,7 @@ struct token token_get_hex(struct lexer* lxr)
 
     buffer[index++] = c;
 
-    while (strchr(NUMCHAR, lexer_peek_next(lxr)) &&
+    while (strchr(HEXNUMCHAR, lexer_peek_next(lxr)) &&
                            lexer_peek_next(lxr) != '\0')
     {
         if (index >= MAX_TOKEN_LEN)
@@ -561,8 +562,8 @@ struct token token_get_hex(struct lexer* lxr)
         index++;
     }
 
-    if (strchr(SPECIAL , lexer_peek_next(lxr)) &&
-        strchr(WSCHAR, lexer_peek_next(lxr)) &&
+    if (!strchr(SPECIAL , lexer_peek_next(lxr)) &&
+        !strchr(WSCHAR, lexer_peek_next(lxr)) &&
         lexer_peek_next(lxr) != '\0')
     {
         fprintf(stderr, "Syntax error at %d:%d\n", lxr->loc.col,
@@ -591,7 +592,8 @@ struct token token_get_number(struct lexer* lxr)
             lexer_get_next(lxr);
             return token_get_hex(lxr);
         }
-        else
+        else if (!strchr(WSCHAR, lexer_peek_next(lxr)) &&
+                 !strchr(SPECIAL, lexer_peek_next(lxr)))
         {
             fprintf(stderr,
                     "[LXR]Unsupported number base (0%c) at %d:%d\n",
@@ -623,8 +625,8 @@ struct token token_get_number(struct lexer* lxr)
         index++;
     }
 
-    if (strchr(SPECIAL , lexer_peek_next(lxr)) &&
-        strchr(WSCHAR, lexer_peek_next(lxr)) &&
+    if (!strchr(SPECIAL , lexer_peek_next(lxr)) &&
+        !strchr(WSCHAR, lexer_peek_next(lxr)) &&
         lexer_peek_next(lxr) != '\0')
     {
         fprintf(stderr, "Syntax error at %d:%d\n", lxr->loc.col,
