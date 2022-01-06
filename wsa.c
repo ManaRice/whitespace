@@ -154,7 +154,7 @@ bool word_is_keyword(char* s)
         return true;
         // Compatability with other interpreter
     else if (!strcmp(s, "FETCH") || !strcmp(s, "fetch") ||
-             !strcmp(s, "RETRIVE") || !strcmp(s, "retrive"))
+             !strcmp(s, "RETRIEVE") || !strcmp(s, "retrieve"))
         return true;
     else if (!strcmp(s, "CALL") || !strcmp(s, "call"))
         return true;
@@ -210,7 +210,7 @@ enum op_type keyword_get_optype(char* s)
         return STORE;
         // Compatability with other interpreter
     else if (!strcmp(s, "FETCH") || !strcmp(s, "fetch") ||
-             !strcmp(s, "RETRIVE") || !strcmp(s, "retrive"))
+             !strcmp(s, "RETRIEVE") || !strcmp(s, "retrieve"))
         return FETCH;
     else if (!strcmp(s, "CALL") || !strcmp(s, "call"))
         return CALL;
@@ -1092,7 +1092,7 @@ size_t parse(struct token* token_list,
 
 int main(int argc, char** argv)
 {
-    FILE* in_file = fopen("ws/wsa/char.wsa", "r");
+    FILE* in_file = fopen("ws/wsa/bf.wsa", "r");
 
     if (!in_file)
     {
@@ -1100,7 +1100,7 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    FILE* out_file= fopen("ws/ws/char.ws", "w");
+    FILE* out_file= fopen("ws/ws/bf.ws", "w");
 
     fseek(in_file, 0, SEEK_END);
     size_t file_size = ftell(in_file);
