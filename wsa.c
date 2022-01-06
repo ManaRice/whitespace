@@ -910,7 +910,10 @@ size_t pre_process(struct token* token_list,
 
                 if (!ptr_hashmap_add(macro_map, current_identifyer, macro_heap_list))
                 {
-                    fprintf(stderr, "[WSPP] Macro with name %s has already been declared    loc %d:%d\n", current_identifyer, macro_buffer_list[0].loc.row, macro_buffer_list[0].loc.col);
+                    fprintf(stderr, "[WSPP] Macro with name '%s' has already been declared! Loc %d:%d\n",
+                    current_identifyer,
+                    macro_buffer_list[0].loc.row,
+                    macro_buffer_list[0].loc.col);
                     exit(1);
                 }
 
@@ -926,7 +929,10 @@ size_t pre_process(struct token* token_list,
 
                 if (!opt.has_value)
                 {
-                    fprintf(stderr, "[WSPP] Identifier not found     loc: %d:%d\n", token.loc.row, token.loc.col);
+                    fprintf(stderr, "[WSPP] Identifier '%s' not found! Loc: %d:%d\n",
+                    token.s,
+                    token.loc.row,
+                    token.loc.col);
                     exit(1);
                 }
 
@@ -947,7 +953,10 @@ size_t pre_process(struct token* token_list,
         {
             if (!int_hashmap_add(label_map, token.s, label_counter))
             {
-                fprintf(stderr, "[WSPP] Multiple lables of same name     loc: %d:%d\n", token.loc.row, token.loc.col);
+                fprintf(stderr, "[WSPP] Multiple lables of same name '%s'!Loc: %d:%d\n",
+                 token.s,
+                 token.loc.row,
+                 token.loc.col);
                 exit(1);
             }
             token.n = label_counter++;
@@ -957,7 +966,7 @@ size_t pre_process(struct token* token_list,
         {
             if (token_list[i + 1].type != IDENTIFIER)
             {
-                fprintf(stderr, "[WSPP] Macro needs identifier     loc: %d:%d\n", token.loc.row, token.loc.col);
+                fprintf(stderr, "[WSPP] Macro needs identifier! Loc: %d:%d\n", token.loc.row, token.loc.col);
                 exit(1);
             }
 
@@ -971,7 +980,7 @@ size_t pre_process(struct token* token_list,
             {
                 if (token_list[i + 1].type != TOKEN_LIST_START)
                 {
-                    fprintf(stderr, "[WSPP] Macro needs list     loc: %d:%d\n", token.loc.row, token.loc.col);
+                    fprintf(stderr, "[WSPP] Macro needs list! Loc: %d:%d\n", token.loc.row, token.loc.col);
                     exit(1);
                 }
                 current_identifyer = token.s;
@@ -981,7 +990,10 @@ size_t pre_process(struct token* token_list,
 
             if (!opt.has_value)
             {
-                fprintf(stderr, "[WSPP] Identifier not found     loc: %d:%d\n", token.loc.row, token.loc.col);
+                fprintf(stderr, "[WSPP] Identifier 's' not found! Loc: %d:%d\n",
+                token.s,
+                token.loc.row,
+                token.loc.col);
                 exit(1);
             }
 
