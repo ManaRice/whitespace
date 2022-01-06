@@ -1,0 +1,28 @@
+    /*
+        Test immediate char in whitespace assembler
+    */
+    
+    macro PRINTC13 
+    [
+        ;FIXME: Maybe add some kind of for loop for generating tokens like this?
+        printc printc printc printc printc printc printc
+        printc printc printc printc printc printc
+    ]
+    
+    push '
+'           ; FIXME: We may not want to allow this later. Allow it for now since
+            ; we don't have escape characters right now 
+    push '!'
+    push 'a'
+    push 's'
+    push 'w'
+    push 'l'
+    push ' '
+    push ','
+    push 'o'
+    push 'l'
+    push 'l'
+    push 'e'
+    push 'H'
+    PRINTC13
+    end

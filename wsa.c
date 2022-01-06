@@ -669,6 +669,23 @@ struct token token_get_label(struct lexer* lxr)
     return token;
 }
 
+struct token token_get_char(struct lexer* lxr)
+{
+    struct token token = {.type = NUMBER, .loc = lxr->loc};
+    char c = lexer_get_next(lxr);
+
+    if (lexer_get_next(lxr) != '\'')
+    {
+        printf("[LXR] Syntax error, unclosed char declaration at %d:%d\n",
+                lxr->loc.row,
+                lxr->loc.col);
+        exit(1);
+    }
+    lexer_get_next(lxr);
+    token.n = (int64_t)c;
+    return token;
+}
+
 
 struct token token_get_special(struct lexer* lxr)
 {
@@ -680,6 +697,8 @@ struct token token_get_special(struct lexer* lxr)
             return token_get_label(lxr);
         case '-':
             return token_get_number(lxr);
+        case '\'':
+            return token_get_char(lxr);
         case '/':
             if (lexer_peek_next(lxr) == '/')
             {
@@ -1061,7 +1080,7 @@ size_t parse(struct token* token_list,
 
 int main(int argc, char** argv)
 {
-    FILE* in_file = fopen("ws/wsa/hextest.wsa", "r");
+    FILE* in_file = fopen("ws/wsa/char.wsa", "r");
 
     if (!in_file)
     {
@@ -1069,7 +1088,7 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    FILE* out_file= fopen("ws/ws/hextest.ws", "w");
+    FILE* out_file= fopen("ws/ws/char.ws", "w");
 
     fseek(in_file, 0, SEEK_END);
     size_t file_size = ftell(in_file);
