@@ -1112,13 +1112,26 @@ int main(int argc, char** argv)
 
     size_t token_list_size = lex(&lxr, token_list);
 
+#if 0
+    for (int i = 0; i < token_list_size; i++)
+    {
+        print_token(&token_list[i]);
+    }
+#endif
+
     struct token pre_processed_tokens[MAX_TOKENS];
 
     size_t pp_token_list_size = pre_process(token_list,
-                                             token_list_size,
-                                             pre_processed_tokens);
+                                            token_list_size,
+                                            pre_processed_tokens);
 
 
+#if 0
+    for (int i = 0; i < pp_token_list_size; i++)
+    {
+        print_token(&pre_processed_tokens[i]);
+    }
+#endif
 
     struct op op_list[pp_token_list_size];
 
