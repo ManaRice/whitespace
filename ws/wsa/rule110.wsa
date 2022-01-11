@@ -42,7 +42,7 @@
 
 .continue:
     drop 
-    push 10
+    push '\n'
     printc 
     push 0
     fetch 
