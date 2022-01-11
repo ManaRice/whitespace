@@ -110,12 +110,12 @@
     
 .print_char:
     jz .print_space
-    push 111            ; ascii for 'o'
+    push 'o'
     printc
     ret 
     
 .print_space:
-    push 32             ; ascii for ' '
+    push ' '
     printc 
     ret
     

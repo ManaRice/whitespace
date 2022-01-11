@@ -1092,7 +1092,7 @@ size_t parse(struct token* token_list,
 
 int main(int argc, char** argv)
 {
-    FILE* in_file = fopen("ws/wsa/bf.wsa", "r");
+    FILE* in_file = fopen("ws/wsa/rule110.wsa", "r");
 
     if (!in_file)
     {
@@ -1100,7 +1100,7 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    FILE* out_file= fopen("ws/ws/bf.ws", "w");
+    FILE* out_file= fopen("ws/ws/rule110.ws", "w");
 
     fseek(in_file, 0, SEEK_END);
     size_t file_size = ftell(in_file);
