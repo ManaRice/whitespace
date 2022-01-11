@@ -2,7 +2,7 @@
         Testing of hexadecimal numbers of the whitespace assembler
     */
     
-    macro PRINTNL [push 10 printc]
+    macro PRINTNL [push '\t' printc]
     
     
     push 0xff

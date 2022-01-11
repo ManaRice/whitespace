@@ -1,5 +1,8 @@
     /*
         Test immediate char in whitespace assembler
+        
+        FIXME: We for now allow '
+' <- this as a newline, disallow this later.
     */
     
     macro PRINTC13 
@@ -9,9 +12,7 @@
         printc printc printc printc printc printc
     ]
     
-    push '
-'           ; FIXME: We may not want to allow this later. Allow it for now since
-            ; we don't have escape characters right now 
+    push '\n'
     push '!'
     push 'a'
     push 's'

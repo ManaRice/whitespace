@@ -673,13 +673,38 @@ struct token token_get_char(struct lexer* lxr)
 {
     struct token token = {.type = NUMBER, .loc = lxr->loc};
     char c = lexer_get_next(lxr);
-
-    if (lexer_get_next(lxr) != '\'')
+    if (c != '\\')
     {
-        printf("[LXR] Syntax error, unclosed char declaration at %d:%d\n",
-                lxr->loc.row,
-                lxr->loc.col);
-        exit(1);
+        if (lexer_get_next(lxr) != '\'')
+        {
+            printf("[LXR] Syntax error, unclosed char declaration at %d:%d\n",
+                    lxr->loc.row,
+                    lxr->loc.col);
+            exit(1);
+        }
+    }
+    else
+    {
+        c = lexer_get_next(lxr);
+        if (lexer_get_next(lxr) != '\'')
+        {
+            printf("[LXR] Syntax error, unclosed char declaration at %d:%d\n",
+                    lxr->loc.row,
+                    lxr->loc.col);
+            exit(1);
+        }
+
+        switch (c)
+        {
+            case 'n':
+                c = '\n';
+                break;
+            case 't':
+                c = '\t';
+                break;
+            default:
+                break;
+        }
     }
     lexer_get_next(lxr);
     token.n = (int64_t)c;
@@ -888,7 +913,6 @@ size_t pre_process(struct token* token_list,
             in_comment = false;
             continue;
         }
-
         if (token.type == COMMENT_START)
         {
             in_comment = true;
@@ -923,7 +947,7 @@ size_t pre_process(struct token* token_list,
                 macro_token_list_index = 0;
                 continue;
             }
-            if (token.type == IDENTIFIER)
+            else if (token.type == IDENTIFIER)
             {
                 OptionalPtr opt = ptr_hashmap_get(macro_map, token.s);
 
@@ -961,8 +985,7 @@ size_t pre_process(struct token* token_list,
             }
             token.n = label_counter++;
         }
-
-        if (token.type == MACRO)
+        else if (token.type == MACRO)
         {
             if (token_list[i + 1].type != IDENTIFIER)
             {
@@ -973,8 +996,7 @@ size_t pre_process(struct token* token_list,
             in_macro = true;
             continue;
         }
-
-        if (token.type == IDENTIFIER)
+        else if (token.type == IDENTIFIER)
         {
             if (in_macro)
             {
@@ -1006,8 +1028,7 @@ size_t pre_process(struct token* token_list,
             }
             continue;
         }
-
-        if (token.type == TOKEN_LIST_START)
+        else if (token.type == TOKEN_LIST_START)
         {
             if (!in_macro)
             {
@@ -1092,7 +1113,7 @@ size_t parse(struct token* token_list,
 
 int main(int argc, char** argv)
 {
-    FILE* in_file = fopen("ws/wsa/rule110.wsa", "r");
+    FILE* in_file = fopen("ws/wsa/char.wsa", "r");
 
     if (!in_file)
     {
@@ -1100,7 +1121,7 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    FILE* out_file= fopen("ws/ws/rule110.ws", "w");
+    FILE* out_file= fopen("ws/ws/char.ws", "w");
 
     fseek(in_file, 0, SEEK_END);
     size_t file_size = ftell(in_file);
