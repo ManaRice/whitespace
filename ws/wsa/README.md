@@ -1,7 +1,7 @@
-#The Lime Whitespace assembly language
+# The Lime Whitespace assembly language
 
 
-##Keywords
+## Keywords
 push (n)         - Pushes number to top of the stack
 dupe / dup       - Duplicates the number on the top of the stack
 copy (n)         - copies the number 'n' positions below the top of the stack and pushes it to the top of the stack
@@ -26,7 +26,7 @@ printi           - Prints the value at the top of the stack as an integer
 readc            - Reads the stdin as characters and puts its ascii value at the heap index provided by the top of the stack
 readi            - Reads the stdin as an integer and puts its value at the heap index provided by the top of the STACK
 
-##Labels
+## Labels
 To define a label you have to start with a . (dot / period) and then its name, followed by a : (colon). (Example: .example:)
 
 To jump to a label you have to call, jmp, jz, or jn followed by a . (dot / period) and the labelname. (Example: jmp .example)
