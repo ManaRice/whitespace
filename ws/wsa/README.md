@@ -60,25 +60,30 @@ To jump to a label you have to call, jmp, jz, or jn followed by a . (dot / perio
 ### Decimal
 Examples:
 >13
+
 >42069
 
 ### Hexadecimal
 Prefix with '0x'.
 Examples:
 >0x0d   -> (Decimal) 13
+
 >0x4a55 -> (Decimal) 42069
 
 ### Character representation
 Enclose with '
 Examples:
 >'A' -> (Decimal) 65
+
 >'z' -> (Decimal) 122
 
 #### Escape characters
 Escape with '\\'
 Examples that are implemented:
 >'\t' -> (Decimal) 9
+
 >'\n' -> (Decimal) 10
+
 >'\\'' -> (Decimal) 39
 
 ## Macros
