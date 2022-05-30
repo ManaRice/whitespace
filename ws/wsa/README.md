@@ -59,27 +59,27 @@ To jump to a label you have to call, jmp, jz, or jn followed by a . (dot / perio
 
 ### Decimal
 Examples:
-    13
-    42069
+>13
+>42069
 
 ### Hexadecimal
 Prefix with '0x'.
 Examples:
-    0x0d   -> (Decimal) 13
-    0x4a55 -> (Decimal) 42069
+>0x0d   -> (Decimal) 13
+>0x4a55 -> (Decimal) 42069
 
 ### Character representation
 Enclose with '
 Examples:
-    'A' -> (Decimal) 65
-    'z' -> (Decimal) 122
+>'A' -> (Decimal) 65
+>'z' -> (Decimal) 122
 
 #### Escape characters
-Escape with '\'
+Escape with '\\'
 Examples that are implemented:
-    '\t' -> (Decimal) 9
-    '\n' -> (Decimal) 10
-    '\'' -> (Decimal) 39
+>'\t' -> (Decimal) 9
+>'\n' -> (Decimal) 10
+>'\\'' -> (Decimal) 39
 
 ## Macros
 Start a macro declaration with the keword 'MACRO'.
@@ -89,23 +89,29 @@ Declare macro contents between brackets '[ (Contents) ]'
 Use the identifyer to "paste" the macro
 
 Example:
-    macro say_hi 
-    [ 
-        push 'H' printc
-        push 'i' printc
-        push '!' printc
-    ]
+```code
+macro say_hi 
+[ 
+    push 'H' printc
+    push 'i' printc
+    push '!' printc
+]
 
-    say_hi
-    end
+say_hi
+end
+```
 
 ## Comments
 ### Singleline comments
-    // This is a comment on a single line (Ignores until newline)
-    ;  This is another comment on a single line (Ignores until newline)
+```code
+// This is a comment on a single line (Ignores until newline)
+;  This is another comment on a single line (Ignores until newline)
+```
 
 ### Multiline comment
+```code
 /*
     This whole comment will not
     be parsed as Whitespace assembly
 */
+```
