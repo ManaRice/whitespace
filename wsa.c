@@ -953,7 +953,7 @@ size_t pre_process(struct token* token_list,
 
                 if (!opt.has_value)
                 {
-                    fprintf(stderr, "[WSPP] Identifier '%s' not found! Loc: %d:%d\n",
+                    fprintf(stderr, "[WSPP] Identifier '%s' not foundd! Loc: %d:%d\n",
                     token.s,
                     token.loc.row,
                     token.loc.col);
@@ -1012,7 +1012,7 @@ size_t pre_process(struct token* token_list,
 
             if (!opt.has_value)
             {
-                fprintf(stderr, "[WSPP] Identifier 's' not found! Loc: %d:%d\n",
+                fprintf(stderr, "[WSPP] Identifier '%s' not found! Loc: %d:%d\n",
                 token.s,
                 token.loc.row,
                 token.loc.col);
@@ -1100,7 +1100,7 @@ size_t parse(struct token* token_list,
                 break;
 
             default:
-                fprintf(stderr, "[WSP] Somthing went wrong, encountered token that should have been handled by pre processor at loc: %d:%d\n", token.loc.row, token.loc.col);
+                fprintf(stderr, "[WSP] Unexpected token type at loc: %d:%d\n", token.loc.row, token.loc.col);
                 print_token(&token);
                 exit(1);
                 break;
@@ -1111,17 +1111,37 @@ size_t parse(struct token* token_list,
     return index;
 }
 
+void usage()
+{
+    puts("\nUsage: Lime Whitespace Assembler");
+    puts("\tlwsa [file]");
+}
+
 int main(int argc, char** argv)
 {
-    FILE* in_file = fopen("ws/wsa/rule110.wsa", "r");
-
-    if (!in_file)
+    if (argc < 2)
     {
-        fprintf(stderr, "Could not open file!\n");
+        fprintf(stderr, "No input file\n");
+        usage();
         exit(1);
     }
 
-    FILE* out_file= fopen("ws/ws/rule110.ws", "w");
+
+    char in_file_path[128] = "ws/wsa/";
+    char out_file_path[128] = "ws/ws/";
+    strcat(in_file_path, argv[1]);
+    strcat(out_file_path, argv[1]);
+    out_file_path[strlen(out_file_path) -1] = '\0';
+
+    FILE* in_file = fopen(in_file_path, "r");
+
+    if (!in_file)
+    {
+        fprintf(stderr, "Could not open file: %s!\n", in_file_path);
+        exit(1);
+    }
+
+    FILE* out_file= fopen(out_file_path, "w");
 
     fseek(in_file, 0, SEEK_END);
     size_t file_size = ftell(in_file);
@@ -1159,7 +1179,7 @@ int main(int argc, char** argv)
                                             pre_processed_tokens);
 
 
-#if 0
+#if 1
     for (int i = 0; i < pp_token_list_size; i++)
     {
         print_token(&pre_processed_tokens[i]);
