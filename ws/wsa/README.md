@@ -57,12 +57,55 @@ To jump to a label you have to call, jmp, jz, or jn followed by a . (dot / perio
 
 ## Numbers
 
-TBD
+### Decimal
+Examples:
+    13
+    42069
+
+### Hexadecimal
+Prefix with '0x'.
+Examples:
+    0x0d   -> (Decimal) 13
+    0x4a55 -> (Decimal) 42069
+
+### Character representation
+Enclose with '
+Examples:
+    'A' -> (Decimal) 65
+    'z' -> (Decimal) 122
+
+#### Escape characters
+Escape with '\'
+Examples that are implemented:
+    '\t' -> (Decimal) 9
+    '\n' -> (Decimal) 10
+    '\'' -> (Decimal) 39
 
 ## Macros
+Start a macro declaration with the keword 'MACRO'.
+Directly after declare the macro identifyer.
+Declare macro contents between brackets '[ (Contents) ]'
 
-TBD
+Use the identifyer to "paste" the macro
+
+Example:
+    macro say_hi 
+    [ 
+        push 'H' printc
+        push 'i' printc
+        push '!' printc
+    ]
+
+    say_hi
+    end
 
 ## Comments
+### Singleline comments
+    // This is a comment on a single line (Ignores until newline)
+    ;  This is another comment on a single line (Ignores until newline)
 
-TBD
+### Multiline comment
+/*
+    This whole comment will not
+    be parsed as Whitespace assembly
+*/
