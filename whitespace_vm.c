@@ -18,6 +18,7 @@ struct vm
     I64Stack* call_stack;
     int64_t heap[HEAP_SIZE];
     struct token program[MAX_PROGRAM_SIZE];
+    size_t program_size;
     IntHashMap* jump_map;
     char* input;
     size_t ip;
@@ -508,6 +509,13 @@ void run_vm(struct vm* vm)
                 break;
         }
         vm->ip++;
+
+        if (vm->ip > vm->program_size)
+        {
+            printf("\n[WSVM]: PROGRAM EXITED UNEXPEXEDLY WITHOUT ENCOUNTERING 'END'\n");
+            vm->running = false;
+        }
+        
         //getchar();
     }
 }
@@ -558,7 +566,7 @@ int main(int argc, char* argv[])
 
     struct generator generator = {.file_pointer = code, .op_index = 0};
 
-    int i = 0;
+    size_t i = 0;
     for (; i < MAX_PROGRAM_SIZE && generator_peek_next(&generator) > 1; i++)
     {
         struct token temp_token = gen_token(&generator);
@@ -575,13 +583,16 @@ int main(int argc, char* argv[])
             vm.program[i] = temp_token;
         generator.op_index++;
     }
-    /*
-        for (int j = 0; j < i; j++)
-        {
-            printf("%d: ", j);
-            print_token(&vm.program[j]);
-        }
-    */
+
+    vm.program_size = i;
+#if 0
+    for (int j = 0; j < i; j++)
+    {
+        printf("%d: ", j);
+        print_token(&vm.program[j]);
+    }
+#endif
+
     run_vm(&vm);
 
     i64_stack_destoy(vm.stack);
